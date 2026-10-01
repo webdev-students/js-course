@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Forms</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <main class="card">
+      <h1>Sign up for deals</h1>
+      <form id="signup-form" novalidate>
+        <p>
+          <label for="fullName">Full name</label><br />
+          <input id="fullName" name="fullName" type="text" aria-describedby="fullName-error" />
+          <span id="fullName-error" class="message error" hidden></span>
+        </p>
+        <p>
+          <label for="email">Email</label><br />
+          <input id="email" name="email" type="email" aria-describedby="email-error" />
+          <span id="email-error" class="message error" hidden></span>
+        </p>
+        <button type="submit" class="button">Sign up</button>
+      </form>
+      <p id="form-message" class="message success"></p>
+    </main>
+  </body>
+</html>

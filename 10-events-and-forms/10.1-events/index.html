@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Events</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <main class="card">
+      <h1>Cart: <span id="count">0</span> items</h1>
+      <button type="button" id="add-button" class="button">Add to cart</button>
+      <p>
+        <label for="search">Search</label><br />
+        <input id="search" type="text" />
+      </p>
+      <p id="search-preview" class="muted"></p>
+      <p>
+        <label for="size">Size</label><br />
+        <select id="size">
+          <option value="S">Small</option>
+          <option value="M">Medium</option>
+          <option value="L">Large</option>
+        </select>
+      </p>
+      <p id="size-preview" class="muted"></p>
+    </main>
+  </body>
+</html>

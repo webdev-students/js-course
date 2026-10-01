@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Weather</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <main class="card">
+      <h1>Weather</h1>
+      <form id="weather-form">
+        <label for="city">City</label><br />
+        <input id="city" name="city" type="text" required />
+        <button type="submit" class="button">Show weather</button>
+      </form>
+      <p id="status" class="muted" role="status"></p>
+      <section id="weather" hidden>
+        <h2></h2>
+        <p id="current"></p>
+      </section>
+    </main>
+  </body>
+</html>
