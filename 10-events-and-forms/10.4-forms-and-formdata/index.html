@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Forms and FormData</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <main class="card">
+      <h1>Join our newsletter</h1>
+      <form id="signup-form">
+        <p>
+          <label for="full-name">Full name</label><br />
+          <input id="full-name" name="fullName" type="text" autocomplete="name" />
+        </p>
+        <p>
+          <label for="email">Email</label><br />
+          <input id="email" name="email" type="email" autocomplete="email" />
+        </p>
+        <p>
+          <label for="city">City</label><br />
+          <select id="city" name="city">
+            <option value="London">London</option>
+            <option value="Athens">Athens</option>
+            <option value="Edinburgh">Edinburgh</option>
+          </select>
+        </p>
+        <p><label><input name="wantsDeals" type="checkbox" value="yes" /> Send me deals</label></p>
+        <button type="submit">Sign up</button>
+      </form>
+      <p id="result" class="message" role="status"></p>
+    </main>
+  </body>
+</html>

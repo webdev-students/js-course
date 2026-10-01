@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bubbling and capturing</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <h1>Bubbling</h1>
+      <ul class="grid" id="product-list">
+        <li class="product-card" id="lamp-card">
+          <h3>Desk Lamp</h3>
+          <button type="button" id="add-button">Add to cart</button>
+        </li>
+      </ul>
+      <p class="muted">Listeners that ran on the last click: <strong id="log-count">0</strong></p>
+    </main>
+  </body>
+</html>

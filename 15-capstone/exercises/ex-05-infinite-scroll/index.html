@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Infinite scroll</title>
+    <link rel="stylesheet" href="style.css" />
+    <script type="module" src="main.js"></script>
+    <style>
+      .product-grid {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        padding: 0;
+        list-style: none;
+      }
+      .product-grid li {
+        min-height: 180px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>All products</h1>
+      <ul id="product-grid" class="product-grid"></ul>
+      <div id="sentinel"></div>
+      <p id="status" role="status"></p>
+    </main>
+  </body>
+</html>

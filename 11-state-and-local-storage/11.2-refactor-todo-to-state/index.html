@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>To-do App</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+    <style>
+      .todo-done span {
+        color: var(--color-muted);
+        text-decoration: line-through;
+      }
+      .filters button[aria-pressed='true'] {
+        background: var(--color-primary);
+        color: #ffffff;
+      }
+      .field-error {
+        color: var(--color-danger);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <h1>To-do</h1>
+      <form id="todo-form" novalidate>
+        <label for="todo-input">New to-do</label><br />
+        <input id="todo-input" name="text" type="text" autocomplete="off" aria-describedby="todo-error" />
+        <button type="submit">Add</button>
+        <p id="todo-error" class="field-error" hidden></p>
+      </form>
+      <p class="filters">
+        <button type="button" class="secondary" data-filter="all">All</button>
+        <button type="button" class="secondary" data-filter="active">Active</button>
+        <button type="button" class="secondary" data-filter="done">Done</button>
+      </p>
+      <ul id="todo-list" class="list"></ul>
+      <p>
+        <span id="items-left" class="muted"></span>
+        <button type="button" id="clear-done" class="secondary">Clear done</button>
+      </p>
+    </main>
+  </body>
+</html>

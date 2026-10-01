@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Weather</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+    <style>
+      .forecast {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.75rem;
+        padding: 0;
+        list-style: none;
+      }
+      .forecast li {
+        padding: 0.75rem;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius);
+        text-align: center;
+      }
+      .big-temperature {
+        font-size: 2.5rem;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <h1>Weather</h1>
+      <form id="search-form">
+        <label for="city-input">City</label>
+        <input id="city-input" name="city" type="text" autocomplete="off" />
+        <button type="submit">Search</button>
+      </form>
+      <p id="recent" class="muted"></p>
+      <section id="weather" aria-live="polite"></section>
+    </main>
+  </body>
+</html>

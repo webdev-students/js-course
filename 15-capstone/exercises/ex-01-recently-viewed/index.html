@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Recently viewed</title>
+    <link rel="stylesheet" href="style.css" />
+    <script type="module" src="main.js"></script>
+    <style>
+      .product-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <h1>Recently viewed</h1>
+      <p>Viewing: <strong id="viewing">nothing yet</strong></p>
+      <div id="product-buttons" class="product-buttons"></div>
+      <h2>Recently viewed</h2>
+      <ol id="recent-list"></ol>
+    </main>
+  </body>
+</html>

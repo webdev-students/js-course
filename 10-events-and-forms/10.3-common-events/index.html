@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Common events</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <main class="card">
+      <h1>Quick order</h1>
+      <p>
+        <label for="name-input">Your name</label><br />
+        <input id="name-input" type="text" autocomplete="name" />
+      </p>
+      <p id="name-preview" class="muted">Hello, stranger!</p>
+      <p>
+        <label for="quantity-select">Wireless Mouse ($19.99) × </label>
+        <select id="quantity-select">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
+      </p>
+      <p>Total: <strong id="total">$19.99</strong></p>
+      <p><label><input id="gift-checkbox" type="checkbox" /> This is a gift</label></p>
+      <p id="gift-note" class="muted is-hidden">We'll add a gift message card.</p>
+    </main>
+  </body>
+</html>

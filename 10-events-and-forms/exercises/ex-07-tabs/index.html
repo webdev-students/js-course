@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Exercise 7</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <main class="card">
+      <h1>Desk Lamp</h1>
+      <div role="tablist" id="tab-list" aria-label="Product information">
+        <button type="button" role="tab" class="secondary highlight" data-panel="panel-description" aria-selected="true" tabindex="0">Description</button>
+        <button type="button" role="tab" class="secondary" data-panel="panel-specs" aria-selected="false" tabindex="-1">Specs</button>
+        <button type="button" role="tab" class="secondary" data-panel="panel-reviews" aria-selected="false" tabindex="-1">Reviews</button>
+      </div>
+      <section id="panel-description" role="tabpanel"><p>A warm, adjustable lamp for late-night study.</p></section>
+      <section id="panel-specs" role="tabpanel" hidden><p>Height 45 cm · LED · 3 brightness levels.</p></section>
+      <section id="panel-reviews" role="tabpanel" hidden><p>★★★★☆ "Perfect for my desk." — Amy</p></section>
+    </main>
+  </body>
+</html>

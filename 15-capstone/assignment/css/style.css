@@ -1,0 +1,1841 @@
+/* =============================================================
+   style.css — all the styles for our Checkout app.
+   Each section is pasted in by the capstone step named in its title.
+   ============================================================= */
+
+/* ---------- STEP 03: design tokens, reset, focus and helpers ---------- */
+
+/* Backgrounds, borders and text keep the original clean light look.
+   The premium touch is in the ACCENTS: a warm bronze for every button and
+   highlight, and muted earth tones for sale / success / error. */
+:root {
+  color-scheme: light;
+  --color-bg: #f6f7fb;
+  --color-surface: #ffffff;
+  --color-surface-muted: #eef0f6;
+  --color-text: #1b1f2a;
+  --color-text-muted: #5b6275;
+  --color-border: #dde1eb;
+  --color-primary: #7a5c3a;
+  --color-primary-hover: #684c2e;
+  --color-primary-text: #ffffff;
+  --color-primary-soft: #eef0f6;
+  --color-accent: #9a7b4f;
+  --color-sale: #a2573d;
+  --color-sale-text: #ffffff;
+  --color-success: #4a6b4f;
+  --color-success-soft: #edf2ec;
+  --color-danger: #9b3d2e;
+  --color-danger-soft: #faeeea;
+  --color-warning-soft: #f8f4ea;
+  --color-focus: #7a5c3a;
+  --color-focus-ring: rgb(122 92 58 / 22%);
+  --color-focus-ring-border: rgb(122 92 58 / 22%);
+  --color-danger-ring: rgb(155 61 46 / 15%);
+  --color-skeleton: #e3e6ee;
+  --color-skeleton-shine: #f1f3f8;
+  --color-overlay: rgb(15 18 30 / 55%);
+
+  --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+  --radius-small: 4px;
+  --radius: 8px;
+  --radius-large: 12px;
+  --shadow: 0 1px 2px rgb(16 24 40 / 6%), 0 4px 12px rgb(16 24 40 / 6%);
+  --shadow-hover: 0 10px 30px rgb(16 24 40 / 10%);
+  --shadow-large: 0 12px 40px rgb(16 24 40 / 22%);
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --content-width: 1200px;
+  --header-height: 4rem;
+}
+
+/* The original dark backgrounds; a lighter bronze and softer accents. */
+[data-theme='dark'] {
+  color-scheme: dark;
+  --color-bg: #0f121a;
+  --color-surface: #181c27;
+  --color-surface-muted: #222736;
+  --color-text: #e8eaf1;
+  --color-text-muted: #a2a9bc;
+  --color-border: #2e3446;
+  --color-primary: #c4a574;
+  --color-primary-hover: #d4b88a;
+  --color-primary-text: #0f121a;
+  --color-primary-soft: #222736;
+  --color-accent: #c4a574;
+  --color-sale: #c9876b;
+  --color-sale-text: #0f121a;
+  --color-success: #93b095;
+  --color-success-soft: #1d2a24;
+  --color-danger: #d98a7a;
+  --color-danger-soft: #2e1c1c;
+  --color-warning-soft: #2a2620;
+  --color-focus: #c4a574;
+  --color-focus-ring: rgb(196 165 116 / 30%);
+  --color-focus-ring-border: rgb(196 165 116 / 30%);
+  --color-danger-ring: rgb(217 138 122 / 25%);
+  --color-skeleton: #222736;
+  --color-skeleton-shine: #2b3142;
+  --shadow: 0 1px 2px rgb(0 0 0 / 40%), 0 4px 12px rgb(0 0 0 / 30%);
+  --shadow-hover: 0 10px 30px rgb(0 0 0 / 40%);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+/* STEP 03: page and section headings use an elegant serif;
+   everything else stays in the clean system sans-serif. */
+h1,
+h2 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+a {
+  color: var(--color-primary);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-small);
+}
+
+/* Headings and <main> get focus from JavaScript — no ring needed there. */
+[tabindex='-1']:focus {
+  outline: none;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- STEP 04: page layout: header, buttons, main area, footer, shop grid ---------- */
+
+.skip-link {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: 100;
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-primary);
+  color: var(--color-primary-text);
+  border-radius: var(--radius-small);
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.site-header-inner {
+  max-width: var(--content-width);
+  min-height: var(--header-height);
+  margin: 0 auto;
+  padding: var(--space-2) var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+/* STEP 04: the brand. A serif wordmark with wide letter-spacing —
+   styled differently from page headings like "Checkout — Delivery Details". */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.logo-text {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.site-nav {
+  display: flex;
+  gap: var(--space-1);
+  margin-left: auto;
+}
+
+.site-nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-small);
+  color: var(--color-text-muted);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.site-nav-link:hover {
+  color: var(--color-text);
+}
+
+.site-nav-link[aria-current='page'] {
+  color: var(--color-text);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.45em;
+}
+
+.site-header-actions {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 2.75rem;
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid transparent;
+  border-radius: var(--radius-small);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.button-primary {
+  background: var(--color-primary);
+  color: var(--color-primary-text);
+}
+
+.button-primary:hover {
+  background: var(--color-primary-hover);
+}
+
+.button-ghost {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+.button-ghost:hover {
+  border-color: var(--color-text);
+}
+
+.button-danger {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}
+
+.button-danger:hover {
+  border-color: var(--color-danger);
+}
+
+.button-small {
+  min-height: 2.25rem;
+  padding: var(--space-1) var(--space-3);
+  font-size: 0.9rem;
+}
+
+.button-large {
+  min-height: 3.25rem;
+  padding: var(--space-3) var(--space-5);
+  font-size: 1.05rem;
+}
+
+.button-block {
+  width: 100%;
+}
+
+.button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.icon-button {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  background: var(--color-surface);
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.icon-button:hover {
+  background: var(--color-surface-muted);
+}
+
+.link-button {
+  padding: var(--space-1);
+  border: 0;
+  background: none;
+  color: var(--color-primary);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.site-main {
+  flex: 1;
+  width: 100%;
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-4) var(--space-7);
+}
+
+.site-main:focus {
+  outline: none;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.page-title {
+  margin-bottom: var(--space-4);
+  font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.5rem);
+  line-height: 1.15;
+}
+
+.page-header .page-title {
+  margin-bottom: 0;
+}
+
+.page-intro {
+  margin-bottom: var(--space-5);
+  color: var(--color-text-muted);
+}
+
+.section-title {
+  margin-bottom: var(--space-4);
+  font-size: 1.35rem;
+}
+
+.site-footer {
+  padding: var(--space-5) var(--space-4);
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.shop-header {
+  margin-bottom: var(--space-4);
+}
+
+.shop-header .page-title {
+  margin-bottom: var(--space-1);
+}
+
+.shop-summary {
+  min-height: 1.5em;
+  color: var(--color-text-muted);
+}
+
+.shop-layout {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: var(--space-5);
+  align-items: start;
+}
+
+.shop-filters {
+  position: sticky;
+  top: calc(var(--header-height) + var(--space-4));
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+
+/* STEP 04: the product grid fills as many columns as fit. */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: var(--space-4);
+}
+
+/* ---------- STEP 07: product cards ---------- */
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  box-shadow: var(--shadow);
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+/* A soft lift of shadow on hover — no jumping around. */
+.product-card:hover {
+  border-color: var(--color-primary-soft);
+  box-shadow: var(--shadow-hover);
+}
+
+.product-card-link {
+  display: grid;
+  gap: var(--space-2);
+  color: inherit;
+  text-decoration: none;
+}
+
+.product-card-media {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: var(--radius-small);
+  background: var(--color-surface-muted);
+}
+
+.product-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.product-card-title {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 1rem;
+  line-height: 1.35;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.product-card-link:hover .product-card-title {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.product-card-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+.product-card-actions {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: auto;
+}
+
+.product-card-actions .button {
+  flex: 1;
+}
+
+/* STEP 07: badges on top of the image. */
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.product-card-media .badge {
+  position: absolute;
+}
+
+.badge-discount {
+  top: var(--space-2);
+  left: var(--space-2);
+  background: var(--color-sale);
+  color: var(--color-sale-text);
+}
+
+.rating {
+  color: var(--color-text-muted);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.rating-count {
+  font-weight: 400;
+}
+
+.price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+
+.price-current {
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.price-original {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+/* ---------- STEP 08: loading skeletons, empty and error states ---------- */
+
+.product-grid > .state-message {
+  grid-column: 1 / -1;
+}
+
+.skeleton {
+  border-radius: var(--radius-small);
+  background: linear-gradient(90deg, var(--color-skeleton) 25%, var(--color-skeleton-shine) 50%, var(--color-skeleton) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite linear;
+}
+
+.skeleton-image {
+  aspect-ratio: 1;
+}
+
+.skeleton-line {
+  height: 0.9rem;
+}
+
+.skeleton-short {
+  width: 55%;
+}
+
+.skeleton-button {
+  height: 2.25rem;
+  margin-top: var(--space-2);
+}
+
+.skeleton-title {
+  height: 2rem;
+  width: 80%;
+}
+
+.skeleton-gallery {
+  aspect-ratio: 1;
+  border-radius: var(--radius);
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+.state-message {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+  padding: var(--space-7) var(--space-4);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  text-align: center;
+}
+
+.state-message-title {
+  font-size: 1.25rem;
+}
+
+.state-message-text {
+  max-width: 40ch;
+  color: var(--color-text-muted);
+}
+
+.state-message-error {
+  border-color: var(--color-danger);
+  background: var(--color-danger-soft);
+}
+
+/* ---------- STEP 10: pagination ---------- */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-6);
+}
+
+.pagination-pages {
+  display: flex;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pagination-link {
+  display: inline-grid;
+  place-items: center;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-small);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.pagination-link:hover {
+  border-color: var(--color-primary);
+}
+
+.pagination-link.is-current {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-primary-text);
+}
+
+.pagination-link.is-disabled {
+  opacity: 0.45;
+}
+
+.pagination-ellipsis {
+  display: grid;
+  place-items: center;
+  min-width: 1.5rem;
+  color: var(--color-text-muted);
+}
+
+/* ---------- STEP 12: search form fields ---------- */
+
+.filters {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.field {
+  display: grid;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.field-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.field-input {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-small);
+  background: var(--color-surface);
+}
+
+.field-input:hover {
+  border-color: var(--color-text-muted);
+}
+
+/* STEP 12: inputs get ONE soft focus ring. The border takes EXACTLY the same
+   colour as the glow, so the two blend into a single even ring (no dark line).
+   The transparent outline still shows up in Windows High Contrast mode. */
+.field-input:focus,
+.field-input:focus-visible {
+  outline: 2px solid transparent;
+  border-color: var(--color-focus-ring-border);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
+}
+
+/* ---------- STEP 14: price range fields ---------- */
+
+.filters-price {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.field-group {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.field-group legend {
+  padding: 0;
+  margin-bottom: var(--space-1);
+}
+
+/* ---------- STEP 15: product detail ---------- */
+
+.badge-stock {
+  bottom: var(--space-2);
+  left: var(--space-2);
+}
+
+.badge-stock-low {
+  background: var(--color-warning-soft);
+  color: var(--color-text);
+}
+
+.badge-stock-out {
+  background: var(--color-text);
+  color: var(--color-surface);
+}
+
+.breadcrumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-4);
+  padding: 0;
+  list-style: none;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.breadcrumbs li + li::before {
+  content: '›';
+  margin-right: var(--space-2);
+}
+
+.product-detail {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.product-detail-info {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.product-detail-brand {
+  color: var(--color-accent);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.product-detail-title {
+  font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.2rem);
+  line-height: 1.2;
+}
+
+.product-detail-price {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.product-detail-price .price-current {
+  font-size: 1.8rem;
+}
+
+.product-detail-description {
+  color: var(--color-text-muted);
+}
+
+.product-detail-facts {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: var(--space-4);
+  border-radius: var(--radius);
+  background: var(--color-surface-muted);
+  list-style: none;
+  font-size: 0.9rem;
+}
+
+.stock-status {
+  font-weight: 600;
+}
+
+.stock-status-in {
+  color: var(--color-success);
+}
+
+.stock-status-low {
+  color: var(--color-accent);
+}
+
+.stock-status-out {
+  color: var(--color-danger);
+}
+
+.gallery {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.gallery-main {
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+
+.gallery-main img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ---------- STEP 16: gallery thumbnails and quantity picker ---------- */
+
+.gallery-thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.gallery-thumb {
+  width: 4.5rem;
+  height: 4.5rem;
+  padding: 2px;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-small);
+  background: var(--color-surface);
+}
+
+.gallery-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.gallery-thumb[aria-pressed='true'] {
+  border-color: var(--color-primary);
+}
+
+.purchase {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+
+.quantity {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.quantity-controls,
+.quantity-small {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-small);
+  overflow: hidden;
+}
+
+.quantity-button {
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 0;
+  background: var(--color-surface-muted);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.quantity-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.quantity-input {
+  width: 3.5rem;
+  height: 2.75rem;
+  border: 0;
+  background: var(--color-surface);
+  text-align: center;
+  -moz-appearance: textfield;
+}
+
+/* The quantity box sits inside a bordered group, so the ring goes on the
+   whole group (a glow on the input itself would be cut off at the edges). */
+.quantity-input:focus,
+.quantity-input:focus-visible {
+  outline: 2px solid transparent;
+}
+
+.quantity-controls:has(.quantity-input:focus),
+.quantity-small:has(.quantity-input:focus) {
+  border-color: var(--color-focus-ring-border);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
+}
+
+.quantity-input::-webkit-inner-spin-button,
+.quantity-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.quantity-small .quantity-button,
+.quantity-small .quantity-input {
+  height: 2.25rem;
+}
+
+.quantity-small .quantity-button {
+  width: 2.25rem;
+}
+
+.purchase-note {
+  min-height: 1.5em;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.purchase-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.purchase-buttons .button {
+  flex: 1 1 12rem;
+}
+
+/* ---------- STEP 17: related products ---------- */
+
+.product-grid-compact {
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+}
+
+.related {
+  margin-top: var(--space-7);
+}
+
+/* ---------- STEP 21: cart badge ---------- */
+
+.cart-button-badge {
+  position: absolute;
+  top: -0.3rem;
+  right: -0.3rem;
+  min-width: 1.35rem;
+  height: 1.35rem;
+  padding: 0 0.3rem;
+  border-radius: 999px;
+  background: var(--color-primary);
+  color: var(--color-primary-text);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.35rem;
+  text-align: center;
+}
+
+/* ---------- STEP 22: toasts ---------- */
+
+/* Bottom-LEFT, so they never sit on top of the cart drawer (which opens on
+   the right). pointer-events: none lets clicks pass straight through them. */
+.toast-region {
+  position: fixed;
+  left: var(--space-4);
+  bottom: var(--space-4);
+  z-index: 60;
+  display: grid;
+  gap: var(--space-2);
+  width: min(22rem, calc(100vw - 2rem));
+  pointer-events: none;
+}
+
+/* A light card with a thin coloured strip on the left:
+   olive = success, bronze = info, brick = error. */
+.toast {
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--color-success);
+  border-radius: var(--radius-small);
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: var(--shadow-large);
+  font-weight: 500;
+  animation: toast-in 0.25s ease-out;
+}
+
+.toast-info {
+  border-left-color: var(--color-primary);
+}
+
+.toast-error {
+  border-left-color: var(--color-danger);
+}
+
+.toast-leaving {
+  opacity: 0;
+  transform: translateY(0.5rem);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+}
+
+/* ---------- STEP 23: cart drawer and cart rows ---------- */
+
+.has-overlay {
+  overflow: hidden;
+}
+
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: var(--color-overlay);
+  z-index: 40;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 41;
+  display: flex;
+  flex-direction: column;
+  width: min(26rem, 100vw);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-large);
+  animation: drawer-in 0.25s ease-out;
+}
+
+@keyframes drawer-in {
+  from {
+    transform: translateX(100%);
+  }
+}
+
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.drawer-title {
+  font-size: 1.25rem;
+}
+
+.drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-4);
+}
+
+.drawer-body .state-message {
+  border: 0;
+}
+
+.drawer-footer {
+  padding: var(--space-4);
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface-muted);
+}
+
+.drawer-actions {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.cart-list {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cart-item {
+  display: grid;
+  grid-template-columns: 72px 1fr auto;
+  gap: var(--space-3);
+  align-items: start;
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.cart-item-image {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-small);
+  background: var(--color-surface-muted);
+  object-fit: contain;
+}
+
+.cart-item-details {
+  display: grid;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.cart-item-title {
+  color: var(--color-text);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.cart-item-title:hover {
+  text-decoration: underline;
+}
+
+.cart-item-price,
+.cart-item-note {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+.cart-item-side {
+  display: grid;
+  justify-items: end;
+  gap: var(--space-2);
+}
+
+.cart-item-total {
+  font-weight: 600;
+}
+
+/* ---------- STEP 24: confirm dialog ---------- */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: var(--color-overlay);
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: var(--space-4);
+}
+
+.modal-panel {
+  position: relative;
+  display: grid;
+  gap: var(--space-3);
+  width: min(26rem, 100%);
+  padding: var(--space-5);
+  border-radius: var(--radius-large);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-large);
+}
+
+.modal-title {
+  font-size: 1.25rem;
+}
+
+.modal-message {
+  color: var(--color-text-muted);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+/* ---------- STEP 25: totals ---------- */
+
+.totals {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.totals-row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.totals-row dt {
+  color: var(--color-text-muted);
+}
+
+.totals-row dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+.totals-row-discount dd {
+  color: var(--color-success);
+}
+
+.totals-row-total {
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--color-border);
+  font-size: 1.15rem;
+}
+
+.totals-row-total dt,
+.totals-row-total dd {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.totals-hint {
+  margin-top: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-small);
+  background: var(--color-primary-soft);
+  font-size: 0.875rem;
+}
+
+.totals-hint-success {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+  font-weight: 600;
+}
+
+/* ---------- STEP 26: cart page ---------- */
+
+.cart-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 22rem;
+  gap: var(--space-5);
+  align-items: start;
+}
+
+.cart-layout-items {
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+
+.cart-layout-count {
+  margin-bottom: var(--space-3);
+  color: var(--color-text-muted);
+}
+
+.cart-layout-actions {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.summary-card {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+
+.cart-layout .summary-card {
+  position: sticky;
+  top: calc(var(--header-height) + var(--space-4));
+}
+
+.summary-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.summary-card-title {
+  font-size: 1.1rem;
+}
+
+.summary-card-note {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+/* ---------- STEP 27: wishlist heart and count ---------- */
+
+.count-pill {
+  min-width: 1.4rem;
+  padding: 0 0.4rem;
+  border-radius: 999px;
+  background: var(--color-primary);
+  color: var(--color-primary-text);
+  font-size: 0.75rem;
+  line-height: 1.4rem;
+  text-align: center;
+}
+
+.icon-button-heart {
+  color: var(--color-text);
+  font-size: 1.3rem;
+}
+
+.icon-button-heart[aria-pressed='true'] {
+  color: var(--color-sale);
+  background: var(--color-surface-muted);
+}
+
+/* ---------- STEP 28: checkout page ---------- */
+
+.field-hint {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+.checkout-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 22rem;
+  gap: var(--space-5);
+  align-items: start;
+}
+
+.checkout-layout-summary {
+  position: sticky;
+  top: calc(var(--header-height) + var(--space-4));
+}
+
+.stepper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+  margin: 0 0 var(--space-4);
+  padding: 0;
+  list-style: none;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.stepper-step {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.stepper-number {
+  display: inline-grid;
+  place-items: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border: 2px solid var(--color-border);
+  border-radius: 50%;
+  font-size: 0.8rem;
+}
+
+.stepper-step.is-current {
+  color: var(--color-primary);
+}
+
+.stepper-step.is-current .stepper-number {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: var(--color-primary-text);
+}
+
+.stepper-step.is-done .stepper-number {
+  border-color: var(--color-success);
+  background: var(--color-success);
+  color: var(--color-surface);
+}
+
+.checkout-form {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+
+.checkout-form-actions {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap-reverse;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.radio-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+.radio-card {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding: var(--space-3) var(--space-4);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-small);
+  cursor: pointer;
+}
+
+.radio-card:has(input:checked) {
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
+}
+
+.radio-card input {
+  margin-top: 0.3rem;
+  accent-color: var(--color-primary);
+}
+
+.radio-card-body {
+  display: grid;
+}
+
+.radio-card-title {
+  font-weight: 600;
+}
+
+.radio-card-meta {
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+/* ---------- STEP 29: form errors ---------- */
+
+/* STEP 29: invalid fields get a red border AND an error message
+   (never colour alone — some people can't see red). */
+.field-input[aria-invalid='true'] {
+  border-color: var(--color-danger);
+  border-width: 2px;
+}
+
+/* A field with an error keeps its red border while focused, with a red glow. */
+.field-input[aria-invalid='true']:focus {
+  border-color: var(--color-danger);
+  box-shadow: 0 0 0 3px var(--color-danger-ring);
+}
+
+.field-error {
+  color: var(--color-danger);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.field-error::before {
+  content: '⚠ ';
+}
+
+.form-summary {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-small);
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+  font-weight: 600;
+}
+
+/* ---------- STEP 30: order summary rows ---------- */
+
+.summary-items {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0 0 var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+  list-style: none;
+}
+
+.summary-item {
+  display: grid;
+  grid-template-columns: 48px 1fr auto;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+.summary-item-image {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-small);
+  background: var(--color-surface-muted);
+  object-fit: contain;
+}
+
+.summary-item-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.summary-item-quantity {
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+}
+
+.summary-item-total {
+  font-weight: 600;
+}
+
+/* ---------- STEP 31: payment step ---------- */
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.demo-notice {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-accent);
+  border-radius: var(--radius);
+  background: var(--color-warning-soft);
+}
+
+.demo-notice-title {
+  font-weight: 600;
+}
+
+.checkout-layout > div {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.address {
+  line-height: 1.6;
+}
+
+.address-delivery {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.payment-status {
+  min-height: 1.5em;
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+/* ---------- STEP 32: confirmation ---------- */
+
+.badge-success {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+}
+
+.confirmation-hero {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+  padding: var(--space-6) var(--space-4);
+  border-radius: var(--radius-large);
+  background: var(--color-success-soft);
+  text-align: center;
+}
+
+.confirmation-hero .page-title {
+  margin-bottom: 0;
+}
+
+/* A thin check mark in a circle, in the muted success colour. */
+.confirmation-icon {
+  display: grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border: 1px solid var(--color-success);
+  border-radius: 50%;
+  color: var(--color-success);
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.confirmation-lead {
+  font-size: 1.1rem;
+}
+
+.order-id {
+  font-family: ui-monospace, 'Cascadia Code', Consolas, monospace;
+  letter-spacing: 0.05em;
+}
+
+.demo-note {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.confirmation-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.confirmation-items {
+  grid-column: 1 / -1;
+}
+
+.confirmation-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+/* ---------- STEP 33: order history ---------- */
+
+.orders-list {
+  display: grid;
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.order-card {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+
+.order-card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.order-card-id {
+  font-family: ui-monospace, 'Cascadia Code', Consolas, monospace;
+  font-size: 1.05rem;
+}
+
+.order-card-meta {
+  color: var(--color-text-muted);
+}
+
+.order-card-thumbs {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.order-card-thumbs img {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-small);
+  background: var(--color-surface-muted);
+  object-fit: contain;
+}
+
+.order-card-more {
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+/* ---------- STEP 34: theme toggle icons ---------- */
+
+/* STEP 34: show the moon in light mode and the sun in dark mode. */
+.theme-icon-sun,
+[data-theme='dark'] .theme-icon-moon {
+  display: none;
+}
+
+[data-theme='dark'] .theme-icon-sun {
+  display: block;
+}
+
+/* ---------- STEP 35: responsive layout and reduced motion ---------- */
+
+@media (max-width: 900px) {
+  .shop-layout,
+  .cart-layout,
+  .checkout-layout,
+  .product-detail {
+    grid-template-columns: 1fr;
+  }
+
+  .shop-filters,
+  .checkout-layout-summary,
+  .cart-layout .summary-card {
+    position: static;
+  }
+
+  .filters {
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    align-items: end;
+  }
+}
+
+@media (max-width: 600px) {
+  .site-header-inner {
+    gap: var(--space-2);
+  }
+
+  .site-nav {
+    order: 3;
+    width: 100%;
+    margin-left: 0;
+    justify-content: space-around;
+  }
+
+  .site-header-actions {
+    margin-left: auto;
+  }
+
+  /* Compact filters: search on top, category + sort side by side,
+     then price, so products appear sooner on a phone. */
+  .shop-filters {
+    padding: var(--space-3);
+  }
+
+  .filters {
+    grid-template-columns: 1fr 1fr;
+    grid-auto-flow: dense;
+    gap: var(--space-3);
+  }
+
+  .filters > .field:first-child,
+  .filters > .field-group,
+  .filters > [data-action='clear-filters'] {
+    grid-column: 1 / -1;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-3);
+  }
+
+  .product-card-actions {
+    flex-direction: column;
+  }
+
+  .product-card-actions .icon-button {
+    width: 100%;
+    border-radius: var(--radius-small);
+  }
+
+  .radio-cards,
+  .field-row,
+  .confirmation-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .checkout-form {
+    padding: var(--space-4);
+  }
+
+  .cart-item {
+    grid-template-columns: 56px 1fr;
+  }
+
+  .cart-item-image {
+    width: 56px;
+    height: 56px;
+  }
+
+  .cart-item-side {
+    grid-column: 2;
+    grid-auto-flow: column;
+    justify-content: space-between;
+    justify-items: start;
+    align-items: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

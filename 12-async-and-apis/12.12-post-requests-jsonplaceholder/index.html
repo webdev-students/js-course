@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>POST requests</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <main class="card">
+      <h1>Write a review</h1>
+      <form id="review-form">
+        <p>
+          <label for="title">Title</label><br />
+          <input id="title" name="title" type="text" required />
+        </p>
+        <p>
+          <label for="body">Review</label><br />
+          <textarea id="body" name="body" rows="4" cols="40" required></textarea>
+        </p>
+        <button type="submit">Post review</button>
+      </form>
+      <p id="result" class="message success" role="status"></p>
+    </main>
+  </body>
+</html>

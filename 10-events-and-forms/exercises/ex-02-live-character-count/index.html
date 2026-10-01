@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Exercise 2</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+    <style>
+      .warning {
+        color: var(--color-danger);
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <h1>Write a review</h1>
+      <p>
+        <label for="review">Your review</label><br />
+        <textarea id="review" rows="4" cols="40"></textarea>
+      </p>
+      <p id="counter" class="muted" aria-live="polite">0 / 120</p>
+      <button type="button" id="post-button" disabled>Post review</button>
+      <p id="preview" class="message"></p>
+    </main>
+  </body>
+</html>

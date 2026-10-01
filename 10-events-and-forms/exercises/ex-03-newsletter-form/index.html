@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Exercise 3</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+    <style>
+      .field-error {
+        color: var(--color-danger);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <h1>Newsletter</h1>
+      <form id="newsletter-form" novalidate>
+        <p>
+          <label for="field-email">Email</label><br />
+          <input id="field-email" name="email" type="email" aria-describedby="email-error" />
+        </p>
+        <p id="email-error" class="field-error" hidden></p>
+        <p>
+          <label for="field-topic">Topic</label><br />
+          <select id="field-topic" name="topic" aria-describedby="topic-error">
+            <option value="">Choose a topic…</option>
+            <option value="Deals">Deals</option>
+            <option value="New arrivals">New arrivals</option>
+          </select>
+        </p>
+        <p id="topic-error" class="field-error" hidden></p>
+        <p>
+          <label><input id="field-agree" name="agree" type="checkbox" value="yes" aria-describedby="agree-error" /> I agree to receive emails</label>
+        </p>
+        <p id="agree-error" class="field-error" hidden></p>
+        <button type="submit">Subscribe</button>
+      </form>
+      <p id="result" class="message success" role="status"></p>
+    </main>
+  </body>
+</html>
